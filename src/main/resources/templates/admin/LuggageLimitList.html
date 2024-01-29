@@ -1,0 +1,31 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" >
+
+<head>
+  <meta charset="UTF-8">
+  <title>Dodawnie lub edycja</title>
+</head>
+<body>
+<a th:href="@{/index}">Strona Główna</a>
+
+<h1>Lista limitów Bagażu</h1>
+
+<span th:if="${#lists.isEmpty(LuggageLimit)}">Lista jest pusta </span>
+<table>
+  <tr>
+    <th>ID</th>
+    <th>Limit[kg]</th>
+
+  </tr>
+  <tr th:each="luggage:${LuggageLimit}">
+    <td th:text="${luggage.id}"/>
+    <td th:text="${luggage.average}"/>
+    <td><a th:href="@{/admin/LuggageLimitAddOrEdit(Id=${luggage.id})}">Dodaj/Edytuj lot</a></td>
+
+
+  </tr>
+
+</table>
+
+</body>
+</html>

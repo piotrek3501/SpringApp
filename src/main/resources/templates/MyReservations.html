@@ -1,0 +1,57 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <meta charset="UTF-8">
+    <title>Moje Rezerwacje</title>
+    <link rel=”stylesheet” href=”src/main/resources/static/Style.css”>
+</head>
+<body>
+
+<a th:href="@{/index}">Strona Główna</a>
+<a th:href="@{/MyReservations}">Moje Rezerwacje</a>
+<a th:href="@{/logout}">Wyloguj się</a>
+
+
+<h1>Moje rezewacje</h1>
+
+<span th:if="${#lists.isEmpty(ReservationList)}">Nie masz żadnych rezewacji </span>
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Data</th>
+        <th>Czas odlotu</th>
+        <th>Z</th>
+        <th>Do</th>
+        <th>Czas lotu</th>
+        <th>Limit bagażu[kg]</th>
+        <th>Klasa przedziału</th>
+        <th>Numer miejsca</th>
+        <th>Status Lotu</th>
+
+    </tr>
+    <tr th:each="reservation:${ReservationList}">
+        <td th:text="${reservation.flight.id}"/>
+        <td th:text="${reservation.flight.date}"/>
+        <td th:text="${reservation.flight.time.toString()}"/>
+        <td th:text="${reservation.flight.from.getName()}"/>
+        <td th:text="${reservation.flight.to.getName()}"/>
+        <td th:text="${reservation.flight.FlightTime}"/>
+        <td th:text="${reservation.flight.luggageLimit.getAverage()}"/>
+        <td th:text="${reservation.bookSeat.flightclass.getName()}"/>
+        <td th:switch="${reservation.bookSeat.flightclass.id}">
+            <span th:case="'1'" th:text="${reservation.bookSeat.FirstClsSeatnumber}"></span>
+            <span th:case="'2'" th:text="${reservation.bookSeat.BusinessClsSeatnumber}"></span>
+            <span th:case="'3'" th:text="${reservation.bookSeat.EconomicalClsSeatnumber}"></span>
+        </td>
+        <td th:text="${reservation.status}?'W trakcie':'Odleciał'"></td>
+    </tr>
+
+</table>
+
+
+</body>
+
+</html>
+
+

@@ -1,0 +1,15 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Dodawnie lub edycja</title>
+</head>
+<body th:object="${info}">
+
+<p th:text="${info.toString()}"></p>
+
+<p>Powrót na strone główna:</p>
+<a th:href="@{/flightList}">Lista lotów</a>
+
+</body>
+</html>

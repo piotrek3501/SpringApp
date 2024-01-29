@@ -1,0 +1,27 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" >
+
+<head>
+    <meta charset="UTF-8">
+    <title>Rejestracja</title>
+</head>
+<body>
+<form method="post"  th:object="${User}"  >
+
+    Login:   <input type="text"  name="username" th:field="*{username}"/><br>
+    <p th:if="${#fields.hasErrors('username')}" th:each="err:${#fields.errors('username')}" th:text="${err}"></p>
+    hasło:  <input type="password" th:field="*{password}" /><br>
+    <p th:if="${#fields.hasErrors('password')}" th:each="err:${#fields.errors('password')}" th:text="${err}"></p>
+    Potwierdzenie hasła:  <input type="password" th:field="*{passwordConfirm}" /><br>
+    <p th:if="${#fields.hasErrors('passwordConfirm')}" th:each="err:${#fields.errors('passwordConfirm')}" th:text="${err}"></p>
+    Kraj:  <input type="text"  th:field="*{adress.country.name}"/><br>
+    Miasto: <input type="text" th:field="*{adress.city.name}"/><br>
+    ulica:  <input type="text" name="Street" th:field="*{adress.street}"/><br>
+    Numer domu/mieszkania:  <input type="text" name="House_number"th:field="*{adress.house_number}"/><br>
+
+
+    <input type="submit" value="Wyślij" />
+</form>
+
+</body>
+</html>

@@ -1,0 +1,55 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Dodawnie lub edycja</title>
+</head>
+<body >
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Data</th>
+        <th>Czas odlotu</th>
+        <th>Z</th>
+        <th>Do</th>
+        <th>Czas lotu</th>
+        <th>Limit bagażu[kg]</th>
+        <th>Miejsca pierwszej klasy</th>
+        <th>Miejsca biznesowej klasy</th>
+        <th>Miejsca ekonomicznej klasy</th>
+        <th>Data publikacji</th>
+        <th>Moderator</th>
+    </tr>
+    <tr th:object="${flightRemove}">
+        <td th:text="*{Id}"/>
+        <td th:text="*{Date}"/>
+        <td th:text="*{time.toString()}"/>
+        <td th:text="*{from.getName()}"/>
+        <td th:text="*{to.getName()}"/>
+        <td th:text="*{FlightTime}"/>
+        <td th:text="*{luggageLimit.getAverage()}"/>
+        <td th:text="*{combination.getFirst_cls_seats()}"/>
+        <td th:text="*{combination.getBussines_seats()}"/>
+        <td th:text="*{combination.getEconomical_seats()}"/>
+        <td th:text="*{date_adding}"/>
+        <td th:text="*{moderator.getUsername()}"/>
+    </tr>
+
+</table>
+<form th:method="POST" >
+
+    <p>Czy napewno chcesz usunać? Potwierdz poniżej</p>
+
+    <input type="submit" value="TAK" />
+
+    <button type="button" onclick="redirectToHomePage()">NIE</button>
+    <script>
+        function redirectToHomePage() {
+            window.location.href = '/flightList';
+        }
+    </script>
+
+</form>
+
+</body>
+</html>

@@ -1,0 +1,85 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" >
+
+<head>
+    <meta charset="UTF-8">
+    <title>Dodawnie lub edycja</title>
+</head>
+<body>
+<H1>Rezerwacja</H1>
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Data</th>
+        <th>Czas odlotu</th>
+        <th>Z</th>
+        <th>Do</th>
+        <th>Czas lotu</th>
+        <th>Limit bagażu[kg]</th>
+        <th>Miejsca pierwszej klasy</th>
+        <th>Miejsca biznesowej klasy</th>
+        <th>Miejsca ekonomicznej klasy</th>
+    </tr>
+    <tr th:object="${reservation.flight}">
+        <td th:text="*{id}"/>
+        <td th:text="*{date}"/>
+        <td th:text="*{time}"/>
+        <td th:text="*{from.name}"/>
+        <td th:text="*{to.name}"/>
+        <td th:text="*{flightTime}"/>
+        <td th:text="*{luggageLimit.average}"/>
+        <td th:text="*{combination.first_cls_seats}"/>
+        <td th:text="*{combination.bussines_seats}"/>
+        <td th:text="*{combination.economical_seats}"/>
+    </tr>
+
+</table>
+
+Cena za miejsce w Pierwszej klasie: <p th:text="${reservation.flight.firstClassPrice}"></p>zł
+Cena za miejsce w klasie Business: <p th:text="${reservation.flight.bussinesClassPrice}"></p>zł
+Cena za miejsce w Klasie Ekonomicznej: <p th:text="${reservation.flight.economicalClassPrice}"></p>zł
+
+
+<form method="post"  th:object="${reservation}" >
+    Numer miejsc wolnych dla Pierwszej klasy:
+    <select th:field="*{bookSeat.FirstClsSeatnumber}">
+        <option value="-1">--wybierz miejsce W pierwszej klasie--</option>
+        <option th:each="seat : ${FirstClsSeatFree}"
+                th:value="${seat}"
+                th:text=" ${seat}"
+        />
+    </select></br>
+    Numer miejsc wolnych dla klasy Business:
+    <select th:field="*{bookSeat.BusinessClsSeatnumber}">
+        <option value="-1">--wybierz miejsce W klasie business--</option>
+        <option th:each="seat : ${BussinesClsSeatFree}"
+                th:value="${seat}"
+                th:text=" ${seat}"
+        />
+    </select></br>
+    Numer miejsc wolnych dla klasy Ekonomicznej:
+    <select th:field="*{bookSeat.EconomicalClsSeatnumber}">
+        <option value="-1">--wybierz miejsce w klasie ekonomicznej--</option>
+        <option th:each="seat : ${EconomicalClsSeatFree}"
+                th:value="${seat}"
+                th:text=" ${seat}"
+        />
+    </select></br>
+
+
+    Klasa:<br>
+    <p th:if="${#fields.hasErrors('bookSeat.flightclass.id')}" th:each="err:${#fields.errors('bookSeat.flightclass.id')}" th:text="${err}"></p>
+    <select th:field="*{bookSeat.flightclass.id}">
+        <option value="-1">--Wybierz Klase przydziału--</option>
+        <option th:each="klasa : ${FlightClasses}"
+                th:value="${klasa.Id}"
+                th:text=" ${klasa.name}"
+        />
+    </select>
+    <input type="hidden" th:field="${reservation.flight.id}" />
+
+    <input type="submit" value="Wyślij" />
+</form>
+
+</body>
+</html>

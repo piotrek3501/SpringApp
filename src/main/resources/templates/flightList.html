@@ -1,0 +1,100 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <meta charset="UTF-8">
+    <title>Wykaz lotów</title>
+    <link rel=”stylesheet” href=”src/main/resources/static/Style.css”>
+</head>
+<body>
+
+<a th:href="@{/index}">Strona Główna</a>
+<div sec:authorize="hasRole('USER')">
+    <a th:href="@{/MyReservations}">Moje Rezerwacje</a>
+    <a th:href="@{/logout}">Wyloguj się</a>
+</div>
+<div sec:authorize="hasRole('ADMIN')">
+    <a th:href="@{admin/LuggageLimitList}">Lista Limitów bagażu</a>
+    <a th:href="@{/logout}">Wyloguj się</a>
+    <div sec:authorize="hasRole('ADMIN')">
+        <td><a th:href="@{/admin/AddOrEditForm}">Dodaj lot</a></td>
+    </div>
+
+
+</div>
+<h1>Lista lotów</h1>
+<h3>Wyszukiwarka</h3>
+
+<div>
+    <form method="post" th:object="${SearchParamsModel}">
+        Z: <input type="text" th:field="*{params[0]}">
+        Do: <input type="text" th:field="*{params[1]}">
+        Data: <input type="date" th:field="*{params[2]}">
+        Godzina odlotu: <input type="time" th:field="*{params[3]}">
+        Limit bagażu: <input type="text" th:field="*{params[4]}">
+        <input type="submit" value="Szukaj">
+    </form>
+</div>
+
+<span th:if="${#lists.isEmpty(List)}">Lista jest pusta </span>
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Data</th>
+        <th>Czas odlotu</th>
+        <th>Z</th>
+        <th>Do</th>
+        <th>Czas lotu</th>
+        <th>Limit bagażu[kg]</th>
+        <th>Miejsca pierwszej klasy</th>
+        <th>Miejsca biznesowej klasy</th>
+        <th>Miejsca ekonomicznej klasy</th>
+        <th sec:authorize="hasRole('ADMIN')">Data publikacji</th>
+        <th sec:authorize="hasRole('ADMIN')">Moderator</th>
+
+    </tr>
+    <tr th:each="flight:${List}">
+        <td th:text="${flight.Id}"/>
+        <td th:text="${flight.Date}"/>
+        <td th:text="${flight.time.toString()}"/>
+        <td th:text="${flight.from.getName()}"/>
+        <td th:text="${flight.to.getName()}"/>
+        <td th:text="${flight.FlightTime}"/>
+        <td th:text="${flight.luggageLimit.getAverage()}"/>
+        <td th:text="${flight.combination.getFirst_cls_seats()}"/>
+        <td th:text="${flight.combination.getBussines_seats()}"/>
+        <td th:text="${flight.combination.getEconomical_seats()}"/>
+        <div sec:authorize="hasRole('ADMIN')">
+            <td th:text="${flight.date_adding}"/>
+        </div>
+        <div sec:authorize="hasRole('ADMIN')">
+            <td th:text="${flight.moderator.getUsername()}"/>
+        </div>
+        <div sec:authorize="hasRole('ADMIN')">
+            <td><a th:href="@{/admin/AddOrEditForm(Id=${flight.Id})}">Edytuj lot</a></td>
+        </div>
+        <div sec:authorize="hasRole('ADMIN')">
+            <td><a th:href="@{/admin/DeletingFlight(Id=${flight.Id})}">Usuń lot</a></td>
+        </div>
+        <div sec:authorize="hasRole('USER')">
+            <td>
+                <th:block th:if="${flight.date.isBefore(currentDate)}">
+                    Odleciał
+                </th:block>
+                <th:block th:unless="${flight.date.isBefore(currentDate)}">
+                    <a th:href="@{/mkOrder(Id=${flight.id})}">Rezerwuj</a>
+                </th:block>
+            </td>
+        </div>
+
+
+    </tr>
+
+</table>
+
+
+</body>
+
+</html>
+
+

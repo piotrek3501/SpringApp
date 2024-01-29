@@ -1,0 +1,49 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" >
+
+<head>
+    <meta charset="UTF-8">
+    <title>Dodawnie lub edycja</title>
+</head>
+<body>
+<form method="post"  th:object="${Flight}"  >
+
+    ID:   <input type="number"  name="Id" th:field="*{id}"/><br>
+    <p th:if="${#fields.hasErrors('Id')}" th:each="err:${#fields.errors('Id')}" th:text="${err}"></p>
+    Data odlotu:  <input type="date" th:field="*{date}" /><br>
+    <p th:if="${#fields.hasErrors('Date')}" th:each="err:${#fields.errors('Date')}" th:text="${err}"></p>
+    Godzina odlotu:  <input type="time" th:field="*{time}" /><br>
+    Z:  <input type="text" name="from" th:field="*{from.name}"/><br>
+    Do:  <input type="text" name="to"th:field="*{to.name}"/><br>
+    Czas lotu:  <input type="text"  th:field="*{flightTime}"/><br>
+    <p th:if="${#fields.hasErrors('flightTime')}" th:each="err:${#fields.errors('flightTime')}" th:text="${err}"></p>
+    Liczba miejsc pierwszej klasy:  <input type="number" th:field="*{combination.first_cls_seats}"/><br>
+    <p th:if="${#fields.hasErrors('combination.first_cls_seats')}" th:each="err:${#fields.errors('combination.first_cls_seats')}" th:text="${err}"></p>
+    Liczba miejsc klasy Bussines:  <input type="number"  th:field="*{combination.bussines_seats}"/><br>
+    <p th:if="${#fields.hasErrors('combination.bussines_seats')}" th:each="err:${#fields.errors('combination.bussines_seats')}" th:text="${err}"></p>
+    Liczba miejsc ekonomicznej klasy:  <input type="number" th:field="*{combination.economical_seats}"/><br>
+    <p th:if="${#fields.hasErrors('combination.economical_seats')}" th:each="err:${#fields.errors('combination.economical_seats')}" th:text="${err}"></p>
+
+    Cena za miejsce w Pierwszej klasie [zł]: <input type="number" th:field="*{firstClassPrice}"/><br>
+    <p th:if="${#fields.hasErrors('firstClassPrice')}" th:each="err:${#fields.errors('firstClassPrice')}" th:text="${err}"></p>
+    Cena za miejsce w  klasie Business [zł]:  <input type="number" th:field="*{bussinesClassPrice}"/><br>
+    <p th:if="${#fields.hasErrors('bussinesClassPrice')}" th:each="err:${#fields.errors('bussinesClassPrice')}" th:text="${err}"></p>
+    Cena za miejsce w  klasie Ekonomicznej [zł]:  <input type="number" th:field="*{economicalClassPrice}"/><br>
+    <p th:if="${#fields.hasErrors('economicalClassPrice')}" th:each="err:${#fields.errors('economicalClassPrice')}" th:text="${err}"></p>
+
+    Bagaż:<br>
+    <p th:if="${#fields.hasErrors('luggageLimit.Id')}" th:each="err:${#fields.errors('luggageLimit.Id')}" th:text="${err}"></p>
+    <select th:field="*{luggageLimit.Id}">
+        <option value="-1">--wybierz Limit bagażu--</option>
+        <option th:each="lug : ${LuggageLimitModel}"
+                th:value="${lug.Id}"
+                th:text=" ${lug.average}"
+        />
+    </select>
+
+
+    <input type="submit" value="Wyślij" />
+</form>
+
+</body>
+</html>

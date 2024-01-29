@@ -1,0 +1,18 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" >
+
+<head>
+    <meta charset="UTF-8">
+    <title>Dodawnie lub edycja</title>
+</head>
+<body>
+<form method="post"  th:object="${luggage}"  >
+
+    ID:   <input type="number"  name="Id" th:field="*{id}"/><br>
+    Limit:   <input type="number"  name="Id" th:field="*{average}"  min="0" max="100" step="0.1"/><br>
+
+    <input type="submit" value="Wyślij" />
+</form>
+
+</body>
+</html>
